@@ -38,47 +38,117 @@ const Display = ({counter}) => {
   )
 }
 
-const Button = (props) => {
+
+const History = (props) => {
+  if (props.allClicks.includes('NULL')){
+    return (
+      <div>
+        the app is used by pressing the buttons
+      </div>
+    )
+  }
+
   return (
-    <button onClick={props.onClick}>
-      {props.text}
-    </button>
+    <div>
+      button press history : {props.allClicks.join(' ')}
+    </div>
   )
 }
 
-
+/*
+const Button = ({handleClick, text}) => (
+  <button onClick={handleClick}>
+    {text}
+  </button>
+)
+*/
 
 
 function App(props) {
-  // const {counter} = props
-  // const name = 'Peter'
-  // const age = 69
+  /*
   const [counter, setCounter] = useState(0)
-  console.log('rendering with counter value', counter)
-  // setTimeout( 
-  //   () => setCounter(counter + 1), 
-  //   1000
-  // )
+  setTimeout( 
+    () => setCounter(counter + 1), 
+    1000
+  )
 
-  //console.log("rendering..", counter)
+  console.log("rendering..", counter)
+  const[left, setLeft] = useState(0)
+  const[right, setRight] = useState(0)
   
   const increaseByOne = () => {
-    console.log('increasing, value before', counter)
     setCounter(counter + 1)
   }
 
   const reset = () => {
-    console.log('resetting to zero, value before', counter)
     setCounter(0)
   }
 
   const decreaseByOne = () => {
-    console.log('decreasing, value before', counter)
     setCounter(counter - 1)
   }
 
   const handleClick = () => {
     console.log('clicked')
+  }
+  */
+  
+  /*
+  const [clicks, setClicks] = useState({
+    left: 0, right: 0
+  })
+
+  const handleLeftClick = () =>{
+    // setClicks can get the direct object declaraltion without creating a new object
+    const newClicks = {
+      ...clicks,
+      left : clicks.left + 1,
+      
+    }
+    setClicks(newClicks)
+  }
+
+  const handleRightClick = () =>{
+    // setClicks can get the direct object declaraltion without creating a new object
+    const newClicks = {
+      ...clicks,
+      right : clicks.right + 1
+    }
+    setClicks(newClicks)
+  }
+  */
+
+/*
+  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+  const [allClicks, setAll] = useState(['NULL'])
+  const [total, setTotal] = useState(0)
+
+  const handleLeftClick = () => {
+    if(allClicks.includes('NULL')){
+      setAll(allClicks.pop()) // use with caution, mutating the properties may bring forth unexpected result
+    }
+    setAll(allClicks.concat('L'))
+    const updatedLeft = left + 1
+    setLeft(updatedLeft)
+    setTotal(updatedLeft + right)  
+  }
+  const handleRightClick = () => {
+    if(allClicks.includes('NULL')){
+      setAll(allClicks.pop()) // use with caution, mutating the properties may bring forth unexpected result
+    }
+    setAll(allClicks.concat('R'))
+    const updatedRight = right + 1
+    setRight(updatedRight)
+    setTotal(left + updatedRight)  
+  }
+  */
+
+  const[value, setValue] = useState(10)
+
+  const handleClick = () => {
+    console.log('clicked the button')
+    setValue(0)
   }
   return (
     <>
@@ -89,7 +159,7 @@ function App(props) {
       {/* <h1>Greetings</h1>
       <Hello name="Maya" age={42 + 10}/>
       <Hello name={name} age={age} /> */}
-      <Display counter = {counter}/>
+      {/* <Display counter = {counter}/>
       <Button 
       onClick={increaseByOne}
       text='Click me to increase!'
@@ -101,8 +171,19 @@ function App(props) {
       <Button
       onClick={decreaseByOne}
       text='Click me to decrease'
-      />
+      /> */}
+      {/* <div>
+        {left}
+        <Button handleClick={handleLeftClick} text='left' />
+        <Button handleClick={handleRightClick} text='right' />
+        {right}
+        <History allClicks = {allClicks} />
+      </div> */}
 
+      <div>
+        {value}
+        <button onClick={handleClick}>reset to zero</button>
+      </div>
     </>
   )
 }
