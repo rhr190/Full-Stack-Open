@@ -21,9 +21,6 @@ const Counts = ({text, count, extra_text}) => {
 }
 
 const Statistics = (props) => {
-  // header text
-  const stats = "Statistics"
-
   //Stats text
   const pos = "Good"
   const neut = "Neutral"
@@ -33,9 +30,16 @@ const Statistics = (props) => {
   const posPer = "Positive"
   const percentSymbol = "%"
 
+  if (props.all === 0) {
+    return (
+      <div>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
+
   return (
     <div>
-      <Headers text={stats}/>
       <Counts text={pos} count={props.good} />
       <Counts text={neut} count={props.neutral} />
       <Counts text={neg} count={props.bad} />
@@ -100,10 +104,6 @@ const App = () => {
   const pos = "Good"
   const neut = "Neutral"
   const neg = "Bad"
-  const total = "All"
-  const avg = "Average"
-  const posPer = "Positive"
-  const percentSymbol = "%"
 
   return (
     <div>
@@ -111,6 +111,7 @@ const App = () => {
       <Buttons onClick={handlePos} text={pos} />
       <Buttons onClick={handleNeut} text={neut} />
       <Buttons onClick={handleNeg} text={neg} />
+      <Headers text={stats}/>
       <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} posPercent={posPercent}/>
     </div>
   )
