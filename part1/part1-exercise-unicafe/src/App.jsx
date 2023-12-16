@@ -20,6 +20,33 @@ const Counts = ({text, count, extra_text}) => {
   )
 }
 
+const Statistics = (props) => {
+  // header text
+  const stats = "Statistics"
+
+  //Stats text
+  const pos = "Good"
+  const neut = "Neutral"
+  const neg = "Bad"
+  const total = "All"
+  const avg = "Average"
+  const posPer = "Positive"
+  const percentSymbol = "%"
+
+  return (
+    <div>
+      <Headers text={stats}/>
+      <Counts text={pos} count={props.good} />
+      <Counts text={neut} count={props.neutral} />
+      <Counts text={neg} count={props.bad} />
+      <Counts text={total} count={props.all} />
+      <Counts text={avg} count={props.average} />
+      <Counts text={posPer} count={props.posPercent} extra_text={percentSymbol}/>
+    </div>
+  )
+}
+
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -29,6 +56,7 @@ const App = () => {
   const [score, setScore] = useState(0)
   const [average, setAverage] = useState(0)
   const [posPercent, setPosPercent] = useState(0)
+  
 
   // Event handlers
   const handlePos = () => {
@@ -75,6 +103,7 @@ const App = () => {
   const total = "All"
   const avg = "Average"
   const posPer = "Positive"
+  const percentSymbol = "%"
 
   return (
     <div>
@@ -82,15 +111,17 @@ const App = () => {
       <Buttons onClick={handlePos} text={pos} />
       <Buttons onClick={handleNeut} text={neut} />
       <Buttons onClick={handleNeg} text={neg} />
-      <Headers text={stats}/>
-      <Counts text={pos} count={good} />
-      <Counts text={neut} count={neutral} />
-      <Counts text={neg} count={bad} />
-      <Counts text={total} count={all} />
-      <Counts text={avg} count={average} />
-      <Counts text={posPer} count={posPercent} extra_text={"%"}/>
+      <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} posPercent={posPercent}/>
     </div>
   )
 }
 
 export default App
+
+// <Headers text={stats}/>
+// <Counts text={pos} count={good} />
+// <Counts text={neut} count={neutral} />
+// <Counts text={neg} count={bad} />
+// <Counts text={total} count={all} />
+// <Counts text={avg} count={average} />
+// <Counts text={posPer} count={posPercent} extra_text={percentSymbol}/>
