@@ -42,6 +42,8 @@ const App = () => {
     //console.log(event.target.value);
     setNewName(event.target.value)
   }
+
+  // store the new number
   const handleNumOp = (event) => {
     //console.log(event.target.value);
     setNewNumber(event.target.value)
@@ -52,7 +54,7 @@ const App = () => {
     setFilterName(event.target.value)
   }
 
-  // add the name 2 the persons array
+  // validate the stored name
   const addNameOp = (event) => {
     event.preventDefault()
     const condObj = persons.find(person => person.name === newName)
@@ -63,7 +65,8 @@ const App = () => {
     // setPersons(persons.concat(personObj))
     return newName
   }
-
+  
+  // validate the stored number
   const addNumOp = (event) => {
     event.preventDefault()
     const condObj = persons.find(person => person.number === newNumber)
