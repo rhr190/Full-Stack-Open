@@ -2,23 +2,40 @@ import { useState } from 'react'
 
 const ContactList = (props) => {
   const contacts = props.persons
+  const filterString = props.filterString
 
-  return (
-    <>
-      {contacts.map(contact =>
-        <p key={contact.name}>{contact.name} {contact.number}</p>)
-      }
-    </>
-  )
+  if(filterString === ''){
+    return (
+      <>
+        {contacts.map(contact =>
+          <p key={contact.id}>{contact.name} {contact.number}</p>)
+        }
+      </>
+    )
+  }
+  else {
+    const filteredList = contacts.filter(contact => contact.name.toLowerCase().includes(filterString.toLowerCase()))
+    return (
+      <>
+        {filteredList.map(contact =>
+          <p key={contact.id}>{contact.name} {contact.number}</p>)
+        }
+      </>
+    )
+  }
+
 }
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: '',
-      number: '' }
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filterName, setFilterName] = useState('')
 
   // store the new name
   const handleNameOp = (event) => {
@@ -30,6 +47,11 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  // search for name with keyword
+  const searchNameOp = (event) => {
+    setFilterName(event.target.value)
+  }
+
   // add the name 2 the persons array
   const addNameOp = (event) => {
     event.preventDefault()
@@ -39,8 +61,7 @@ const App = () => {
       return null
     }
     // setPersons(persons.concat(personObj))
-    const newPersonName = newName
-    return newPersonName
+    return newName
   }
 
   const addNumOp = (event) => {
@@ -50,8 +71,7 @@ const App = () => {
       // window.alert(`${newNumber} already exists`)
       return null
     }
-    const newPersonNumber = newNumber
-    return newPersonNumber
+    return newNumber
   }
 
   const add2Phone = (event) => {
@@ -60,10 +80,12 @@ const App = () => {
     const addingNumber = addNumOp(event)
     setNewName('')
     setNewNumber('')
+    const size = persons.length;
     if(addingName && addingNumber) {
       const newPersonObj = {
         name : addingName,
-        number : addingNumber
+        number : addingNumber,
+        id : size + 1
       }
       setPersons(persons.concat(newPersonObj))
     }
@@ -76,6 +98,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>filter shown with: <input defaultValue={filterName} onChange={searchNameOp}/>
+      </div>
+      <h2>Add a new</h2>
       <form onSubmit={add2Phone}>
         <div>
           name: <input defaultValue={newName} onChange={handleNameOp}/>
@@ -86,7 +111,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <ContactList persons={persons}/>
+      <ContactList persons={persons} filterString={filterName}/>
     </div>
   )
 }
