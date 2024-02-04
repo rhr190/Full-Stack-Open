@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const empStr = "";
+
 const ContactList = (props) => {
   const contacts = props.persons
   const filterString = props.filterString
@@ -24,6 +26,30 @@ const ContactList = (props) => {
     )
   }
 
+}
+
+const Filter = (props) => {
+  const search = props.searchNameOp
+  return (
+    <div>filter shown with: <input defaultValue={empStr} onChange={search}/> </div>
+  )
+}
+
+const PersonForm = (props) => {
+  const add = props.add2Phone
+  const nameOp = props.handleNameOp
+  const numOp = props.handleNumOp
+  return (
+    <form onSubmit={add}>
+    <div>
+      name: <input defaultValue={empStr} onChange={nameOp}/>
+    </div>
+    <div>number: <input defaultValue={empStr} onChange={numOp} /></div>
+    <div>
+      <button type="submit">add</button>
+    </div>
+    </form>
+  )
 }
 
 const App = () => {
@@ -101,18 +127,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>filter shown with: <input defaultValue={filterName} onChange={searchNameOp}/>
-      </div>
+      <Filter searchNameOp={searchNameOp} />
       <h2>Add a new</h2>
-      <form onSubmit={add2Phone}>
-        <div>
-          name: <input defaultValue={newName} onChange={handleNameOp}/>
-        </div>
-        <div>number: <input defaultValue={newNumber} onChange={handleNumOp} /></div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm add2Phone={add2Phone} handleNameOp={handleNameOp} handleNumOp={handleNumOp}/>
       <h2>Numbers</h2>
       <ContactList persons={persons} filterString={filterName}/>
     </div>
