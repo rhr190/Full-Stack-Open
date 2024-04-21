@@ -11,7 +11,7 @@ const getAll = () => {
   const request = axios.get(baseUrl)
   const nonExisting = {
     id: 10000,
-    content: 'This note is not saved to server',
+    content: 'This note is not saved to server, yet is shown on the UI. ',
     important: true,
   }
   return request.then(response => response.data.concat(nonExisting))
