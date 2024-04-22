@@ -17,6 +17,12 @@ const deleteContact = removeId => {
     return request.then(response => response.data)
 }
 
+const replaceContact = (modObj, updatedNum) => {
+    const replaceURL = `${baseURL}/${modObj.id}`
+    const request = axios.put(replaceURL, { ...modObj, number : `${updatedNum}`})
+    return request.then(response => response.data)
+}
+
 export default {
-    getAll, create, deleteContact
+    getAll, create, deleteContact, replaceContact
 }

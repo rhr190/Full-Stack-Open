@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import pbService from './services/phonebook'
 
 const empStr = "";
@@ -101,10 +100,10 @@ const App = () => {
   // validate the stored name
   const validateNameOp = (event) => {
     event.preventDefault()
-    const condObj = persons.find(person => person.name === newName)
+    const condObj = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
     if(condObj) {
-      window.alert(`${newName} is already added to phonebook`)
-      return null
+      // window.alert(`${newName} is already added to phonebook`)
+      return condObj
     }
     // setPersons(persons.concat(personObj))
     return newName
@@ -115,8 +114,8 @@ const App = () => {
     event.preventDefault()
     const condObj = persons.find(person => person.number === newNumber)
     if(condObj) {
-      window.alert(`${newNumber} already exists`)
-      return null
+      // window.alert(`${newNumber} already exists`)
+      return condObj
     }
     return newNumber
   }
@@ -125,20 +124,48 @@ const App = () => {
     event.preventDefault()
     const addingName = validateNameOp(event)
     const addingNumber = validateNumOp(event)
-    const newId = String(persons.length + 1);
+    const addingId = String(persons.length + 1);
 
-    // if(!addingName) // update if an entry exists already
-    if(addingName && addingNumber) {
-      const newPersonObj = {name:addingName, number:addingNumber, id:newId}
+    const nameObj = typeof addingName === 'object' &&
+    !Array.isArray(addingName) &&
+    addingName !== null
+
+    const numObj = typeof addingNumber === 'object' &&
+    !Array.isArray(addingNumber) &&
+    addingNumber !== null
+
+    const newName = typeof addingName === 'string'
+    const newNum = typeof addingNumber === 'string'
+
+    // a contact with same name exists already
+    if(nameObj && !numObj) {
+        const msg = `${addingName.name} is alrady added. Replace the old number with new one?`
+        if(window.confirm(msg)) {
+          pbService
+            .replaceContact(addingName, addingNumber)
+            .then(returnedState => {
+              setPersons(
+                persons.map(person => {
+                  if(person.id === nameObj.id && person.number !== addingNumber){
+                      return { ...person, number : addingNumber}
+                  }
+                  else return person
+                })
+              )
+            })
+        }
+    } 
+    if(newName && newNum) {
+      const newPersonObj = {name:addingName, number:addingNumber, id:addingId}
       pbService
         .create(newPersonObj)
         .then(returnedState => {
           setPersons(persons.concat(newPersonObj))
         })
     }
-    else {
-      window.alert(`${addingName} or ${addingNumber} already exists or you're providing invalid value`)
-    }
+    // else {
+    //   window.alert(`${addingName} or ${addingNumber} already exists or you're providing invalid value`)
+    // }
     
     document.getElementById('nameField').value = ''
     document.getElementById('numField').value = '' 
